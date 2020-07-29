@@ -6,7 +6,7 @@ import pyperclip
 
 last_clipboard = ""
 if __name__ == '__main__':
-    client = rpyc.connect('localhost', port=18861)
+    client = rpyc.connect('192.168.100.12', port=18861)
     while True:
         txt = client.root.get_clipboard()
         if txt != last_clipboard:
