@@ -1,17 +1,24 @@
 import pyperclip
-from rpyc import Service
-from rpyc.utils.server import ThreadedServer
+import pyjsonrpc
 
 
-class ClipboardServer(Service):
-
-    def exposed_get_clipboard(self) -> str:
+class RequestHandler(pyjsonrpc.HttpRequestHandler):
+    @pyjsonrpc.rpcmethod
+    def get_clipboard(self) -> str:
         return pyperclip.paste()
 
-    def exposed_set_clipboard(self, content: str):
+    @pyjsonrpc.rpcmethod
+    def set_clipboard(self, content: str):
         pyperclip.copy(content)
 
 
+HOST = 'localhost'
 if __name__ == '__main__':
-    server = ThreadedServer(ClipboardServer, port=18861)
-    server.start()
+    # Threading HTTP-Server
+    http_server = pyjsonrpc.ThreadingHttpServer(
+        server_address=(HOST, 8088),
+        RequestHandlerClass=RequestHandler
+    )
+    print("Starting HTTP server ...")
+    # print("URL: http://localhost:8080")
+    http_server.serve_forever()
