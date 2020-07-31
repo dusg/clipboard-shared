@@ -9,6 +9,7 @@ class ClipboardServer(Service):
         return pyperclip.paste()
 
     def exposed_set_clipboard(self, content: str):
+        print('set clipboard: ' + content)
         pyperclip.copy(content)
 
 
