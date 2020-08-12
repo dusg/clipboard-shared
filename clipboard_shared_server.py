@@ -1,12 +1,16 @@
 import pyperclip
-from rpyc import Service
-from rpyc.utils.server import ThreadedServer
+from rpyc import Service, ThreadedServer
 
 
 class ClipboardServer(Service):
 
     def exposed_get_clipboard(self) -> str:
-        return pyperclip.paste()
+        import subprocess
+        p = subprocess.Popen("xclip -o", stdout=subprocess.PIPE, shell=True)
+        (output, err) = p.communicate()
+        p.wait()
+        return str(output, encoding='utf8')
+        # return pyperclip.paste()
 
     def exposed_set_clipboard(self, content: str):
         print('set clipboard: ' + content)
