@@ -13,7 +13,11 @@ class ClipboardServer(Service):
         # return pyperclip.paste()
 
     def exposed_set_clipboard(self, content: str):
+        import os
         print('set clipboard: ' + content)
+        with open('/home/dusg/copy.txt', encoding='utf8', mode='w') as fp:
+            fp.write(content)
+        os.system('xclip -i ~/copy.txt')
         pyperclip.copy(content)
 
 
