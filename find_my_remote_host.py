@@ -2,11 +2,10 @@ port = 22
 timeout = 1
 user = "dusg"
 password = "'"
-# -*- coding:utf-8 -*-
-import paramiko
 
 
 def test_ip(host) -> bool:
+    import paramiko
     print('test ip : ' + host)
     try:
         ssh_client = paramiko.SSHClient()
