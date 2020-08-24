@@ -1,0 +1,16 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "eclipse target convert",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/eclipse_target_utils.py",
+            "args": ["/home/dusg/work/code/ui/topscode/com.enflame.repository/tops_code.target"],
+            "console": "integratedTerminal"
+        }
+    ]
+}
