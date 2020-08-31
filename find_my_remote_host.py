@@ -20,7 +20,7 @@ def test_ip(host) -> bool:
 
 if __name__ == '__main__':
     for i in range(1, 255):
-        ip = '192.168.100.%d' % i
+        ip = '10.8.52.%d' % i
         if test_ip(ip):
             print('\nmy host is ' + ip)
             exit(0)

@@ -9,7 +9,7 @@ last_clipboard = ""
 
 def do_main():
     global last_clipboard
-    client = rpyc.connect('192.168.100.12', port=18861)
+    client = rpyc.connect('10.8.52.67', port=18861)
     while True:
         try:
             txt = client.root.get_clipboard()
