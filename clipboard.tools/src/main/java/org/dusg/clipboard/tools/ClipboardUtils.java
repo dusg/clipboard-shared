@@ -23,6 +23,9 @@ public class ClipboardUtils {
     }
 
     public static void setClipboardContend(String text) {
+        if (text.isEmpty()) {
+            return;
+        }
         Display.getDefault().asyncExec(() -> {
             Clipboard clipboard = new Clipboard(Display.getDefault());
             clipboard.setContents(new Object[]{text}, new Transfer[]{TextTransfer.getInstance()});
