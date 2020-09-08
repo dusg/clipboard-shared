@@ -15,7 +15,7 @@ public class ClipboardServer {
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
-            Main.setExit(true);
+            System.exit(-1);
         }).start();
     }
 
@@ -63,7 +63,7 @@ public class ClipboardServer {
 
     private CmdPackage readCmdPackage(BufferedReader reader) throws IOException {
         String line = reader.readLine();
-        if (line.isEmpty()) {
+        if (line == null || line.isEmpty()) {
             return null;
         }
         Gson gson = new GsonBuilder().create();
