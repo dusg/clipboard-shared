@@ -1,11 +1,10 @@
+package org.dusg.clipboard.tools;
+
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Display;
 
-import java.awt.*;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 
 public class Main {
     private static boolean exit = false;
@@ -16,19 +15,29 @@ public class Main {
 //                System.out.println(arg);
 //            }
         display = new Display();
-        display.asyncExec(() -> {
-
-            String cmd = args[0];
-            if (cmd.equals("get")) {
-                String text = null;
-                text = getClipboardText();
-                System.out.println(text);
-            } else if (cmd.equals("set")) {
-                String text = args[1];
-                setClipboardText(text);
-            }
-            exit = true;
-        });
+        if (args.length == 0) {
+            return;
+        }
+        if (args[0].equals("server")) {
+            ClipboardServer.run();
+        } else {
+            ClipboardClient.run();
+        }
+//        display.asyncExec(() -> {
+//            String cmd = args[0];
+//            if (cmd.equals("get")) {
+//                String text = null;
+//                text = getClipboardText();
+//                System.out.println(text);
+//            } else if (cmd.equals("set")) {
+//                String text = args[1];
+//                try {
+//                    setClipboardText(text);
+//                } catch (InterruptedException ignored) {
+//                }
+//            }
+//            exit = true;
+//        });
         while (!exit) {
             if (!display.readAndDispatch()) {
                 display.sleep();
@@ -42,12 +51,12 @@ public class Main {
         display.dispose();
     }
 
-    private static void setClipboardText(String text) {
+    private static void setClipboardText(String text) throws InterruptedException {
         Clipboard clipboard = new Clipboard(display);
         clipboard.setContents(new Object[]{text}, new Transfer[]{TextTransfer.getInstance()});
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 50; i++) {
             if (!display.readAndDispatch()) {
-                display.sleep();
+                Thread.sleep(100);
             }
         }
         while (true) {
