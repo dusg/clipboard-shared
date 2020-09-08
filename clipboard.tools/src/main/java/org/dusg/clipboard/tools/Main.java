@@ -10,18 +10,23 @@ public class Main {
     private static boolean exit = false;
     private static Display display;
 
+    public static boolean isExit() {
+        return exit;
+    }
+
+    public static void setExit(boolean exit) {
+        Main.exit = exit;
+    }
+
     public static void main(String[] args) {
         //            for (String arg : args) {
 //                System.out.println(arg);
 //            }
         display = new Display();
         if (args.length == 0) {
-            return;
-        }
-        if (args[0].equals("server")) {
-            ClipboardServer.run();
-        } else {
             ClipboardClient.run();
+        } else if (args[0].equals("server")) {
+            ClipboardServer.run();
         }
 //        display.asyncExec(() -> {
 //            String cmd = args[0];

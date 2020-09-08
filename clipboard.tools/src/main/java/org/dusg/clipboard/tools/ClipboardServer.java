@@ -15,6 +15,7 @@ public class ClipboardServer {
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
+            Main.setExit(true);
         }).start();
     }
 

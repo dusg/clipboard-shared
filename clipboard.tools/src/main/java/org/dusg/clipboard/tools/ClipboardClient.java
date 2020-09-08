@@ -16,11 +16,13 @@ public class ClipboardClient {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.exit(1);
         }).start();
     }
 
     private void start() throws IOException {
         Socket socket = new Socket("10.8.52.67",18861);
+        System.out.println("connect ot server " + socket.getInetAddress());
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));) {
             while (true) {
