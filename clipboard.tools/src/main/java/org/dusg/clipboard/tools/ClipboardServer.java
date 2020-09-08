@@ -57,6 +57,8 @@ public class ClipboardServer {
         ResultPackage resultPackage = new ResultPackage();
         resultPackage.setResult(text);
         writer.write(gson.toJson(resultPackage));
+        writer.newLine();
+        writer.flush();
     }
 
     private CmdPackage readCmdPackage(BufferedReader reader) throws IOException {
@@ -65,7 +67,7 @@ public class ClipboardServer {
             return null;
         }
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(reader, CmdPackage.class);
+        return gson.fromJson(line, CmdPackage.class);
     }
 
     public static class ResultPackage {
