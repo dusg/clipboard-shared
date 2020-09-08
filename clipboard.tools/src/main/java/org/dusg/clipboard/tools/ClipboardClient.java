@@ -20,7 +20,7 @@ public class ClipboardClient {
         }).start();
     }
 
-    private void start() throws IOException {
+    private void start() throws IOException, InterruptedException {
         Socket socket = new Socket("10.8.52.67",18861);
         System.out.println("connect ot server " + socket.getInetAddress());
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -37,6 +37,7 @@ public class ClipboardClient {
                 if (!clipboardContend.isEmpty() && !clipboardContend.equals(lastClipboard)) {
                     updateRemote(writer, clipboardContend);
                 }
+                Thread.sleep(500);
             }
         }
     }
@@ -47,6 +48,8 @@ public class ClipboardClient {
         cmdPackage.setFunc("set");
         cmdPackage.setArg(clipboardContend);
         writer.write(gson.toJson(cmdPackage));
+        writer.newLine();
+        writer.flush();
     }
 
     private String readRemoteClipboard(BufferedReader reader, BufferedWriter writer) throws IOException {
@@ -59,6 +62,9 @@ public class ClipboardClient {
 
         String line = reader.readLine();
         ClipboardServer.ResultPackage resultPackage = gson.fromJson(line, ClipboardServer.ResultPackage.class);
+        if (resultPackage == null) {
+            return "";
+        }
         return resultPackage.getResult();
     }
 }
