@@ -13,7 +13,7 @@ public class ClipboardClient {
         new Thread(()->{
             try {
                 new ClipboardClient().start();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             System.exit(1);
@@ -54,8 +54,11 @@ public class ClipboardClient {
         ClipboardServer.CmdPackage cmdPackage = new ClipboardServer.CmdPackage();
         cmdPackage.setFunc("get");
         writer.write(gson.toJson(cmdPackage));
+        writer.newLine();
+        writer.flush();
 
-        ClipboardServer.ResultPackage resultPackage = gson.fromJson(reader, ClipboardServer.ResultPackage.class);
+        String line = reader.readLine();
+        ClipboardServer.ResultPackage resultPackage = gson.fromJson(line, ClipboardServer.ResultPackage.class);
         return resultPackage.getResult();
     }
 }
