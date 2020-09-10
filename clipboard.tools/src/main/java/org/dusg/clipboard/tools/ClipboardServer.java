@@ -47,7 +47,7 @@ public class ClipboardServer {
                     System.out.println("update clipboard: " + cmdPackage.getArg());
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -61,7 +61,10 @@ public class ClipboardServer {
         writer.flush();
     }
 
-    private CmdPackage readCmdPackage(BufferedReader reader) throws IOException {
+    private CmdPackage readCmdPackage(BufferedReader reader) throws IOException, InterruptedException {
+        while (!reader.ready()) {
+            Thread.sleep(100);
+        }
         String line = reader.readLine();
         if (line == null || line.isEmpty()) {
             return null;
