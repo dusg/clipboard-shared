@@ -52,7 +52,8 @@ public class ClipboardClient {
         writer.flush();
     }
 
-    private String readRemoteClipboard(BufferedReader reader, BufferedWriter writer) throws IOException {
+    private String readRemoteClipboard(BufferedReader reader, BufferedWriter writer) throws IOException,
+            InterruptedException {
         Gson gson = new GsonBuilder().create();
         ClipboardServer.CmdPackage cmdPackage = new ClipboardServer.CmdPackage();
         cmdPackage.setFunc("get");
@@ -60,6 +61,9 @@ public class ClipboardClient {
         writer.newLine();
         writer.flush();
 
+        while (!reader.ready()){
+            Thread.sleep(100);
+        }
         String line = reader.readLine();
         ClipboardServer.ResultPackage resultPackage = gson.fromJson(line, ClipboardServer.ResultPackage.class);
         if (resultPackage == null) {
